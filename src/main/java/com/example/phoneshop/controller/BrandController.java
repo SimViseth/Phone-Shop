@@ -5,10 +5,7 @@ import com.example.phoneshop.entity.Brand;
 import com.example.phoneshop.mapper.ResponseMapper;
 import com.example.phoneshop.service.BrandService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -27,4 +24,9 @@ public class BrandController {
         return ResponseEntity.ok(ResponseMapper.toBrandDTO(brand));
     }
 
+    @GetMapping("/getBrand-by-Id/{brandId}")
+    public ResponseEntity<?> getBrandById(@PathVariable Integer brandId) {
+        Brand brand = brandService.getById(brandId);
+        return ResponseEntity.ok(ResponseMapper.toBrandDTO(brand));
+    }
 }

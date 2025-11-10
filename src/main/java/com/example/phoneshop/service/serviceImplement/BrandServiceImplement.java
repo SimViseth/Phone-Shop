@@ -1,6 +1,7 @@
 package com.example.phoneshop.service.serviceImplement;
 
 import com.example.phoneshop.entity.Brand;
+import com.example.phoneshop.exception.ResourceNotFound;
 import com.example.phoneshop.repository.BrandRepository;
 import com.example.phoneshop.service.BrandService;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,11 @@ public class BrandServiceImplement implements BrandService {
     @Override
     public Brand createBrand(Brand brand) {
         return brandRepository.save(brand);
+    }
+
+    @Override
+    public Brand getById(Integer brandId) {
+        return brandRepository.findById(brandId)
+                .orElseThrow(() -> new ResourceNotFound("Brand", brandId));
     }
 }
