@@ -7,6 +7,8 @@ import com.example.phoneshop.repository.BrandRepository;
 import com.example.phoneshop.service.BrandService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BrandServiceImplement implements BrandService {
 
@@ -32,5 +34,15 @@ public class BrandServiceImplement implements BrandService {
         Brand findBrand = getById(brandId);
         findBrand.setName(brand.getName());
         return brandRepository.save(findBrand);
+    }
+
+    @Override
+    public List<Brand> getAllBrands() {
+        return brandRepository.findAll();
+    }
+
+    @Override
+    public List<Brand> getBrandByName(String name) {
+        return brandRepository.findByNameContaining(name);
     }
 }
