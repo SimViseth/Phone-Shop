@@ -5,9 +5,12 @@ import com.example.phoneshop.entity.Brand;
 import com.example.phoneshop.exception.ResourceNotFound;
 import com.example.phoneshop.repository.BrandRepository;
 import com.example.phoneshop.service.BrandService;
+import com.example.phoneshop.spec.BrandFilter;
+import com.example.phoneshop.spec.BrandSpec;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BrandServiceImplement implements BrandService {
@@ -44,5 +47,22 @@ public class BrandServiceImplement implements BrandService {
     @Override
     public List<Brand> getBrandByName(String name) {
         return brandRepository.findByNameContaining(name);
+    }
+
+    @Override
+    public List<Brand> getBrands(Map<String, String> params) {
+        BrandFilter brandFilter = new BrandFilter();
+
+        if(params.containsKey("name")) {
+            String name = params.get("name");
+            brandFilter.setName(name);
+        }
+
+        if(params.containsKey("id")) {
+            String id = params.get("id");
+            brandFilter.setId(Integer.parseInt(id));
+        }
+        BrandSpec brandSpec = new BrandSpec(brandFilter);
+        return brandRepository.findAll(brandSpec);
     }
 }
