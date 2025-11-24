@@ -4,6 +4,7 @@ import com.example.phoneshop.dto.BrandDTO;
 import com.example.phoneshop.entity.Brand;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BrandService {
     Brand createBrand(Brand brand);
@@ -14,4 +15,5 @@ public interface BrandService {
 
     List<Brand> getAllBrands();
     List<Brand> getBrandByName(String name);
+    List<Brand> getBrands(Map<String, String> params);
 }

@@ -50,12 +50,12 @@ public class BrandController {
         return ResponseEntity.ok(list);
     }
 
-    @GetMapping("/getByName")
-    public ResponseEntity<?> getBrandByName(@RequestParam("name") String name) {
-        List<BrandDTO> brandDTOList = brandService.getBrandByName(name)
-                .stream()
-                .map(brand -> BrandMapper.INSTANCE.toDTO(brand))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(brandDTOList);
-    }
+//    @GetMapping("/getByName")
+//    public ResponseEntity<?> getBrandByName(@RequestParam("name") String name) {
+//        List<BrandDTO> brandDTOList = brandService.getBrandByName(name)
+//                .stream()
+//                .map(brand -> BrandMapper.INSTANCE.toDTO(brand))
+//                .collect(Collectors.toList());
+//        return ResponseEntity.ok(brandDTOList);
+//    }
 }
