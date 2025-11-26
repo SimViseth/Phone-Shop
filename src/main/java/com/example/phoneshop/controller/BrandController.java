@@ -1,10 +1,12 @@
 package com.example.phoneshop.controller;
 
 import com.example.phoneshop.dto.BrandDTO;
+import com.example.phoneshop.dto.PageDTO;
 import com.example.phoneshop.entity.Brand;
 import com.example.phoneshop.mapper.BrandMapper;
 import com.example.phoneshop.service.BrandService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,13 +51,19 @@ public class BrandController {
     }
 
     // Use Map: so can input param as much as possible without limitation
+//    @GetMapping("getByMultiParams")
+//    public ResponseEntity<?> getBrandsByMultiParams(@RequestParam Map<String, String> params) {
+//        List<BrandDTO> list = brandService.getBrands(params)
+//                .stream()
+//                .map(brand -> BrandMapper.INSTANCE.toDTO(brand))
+//                .collect(Collectors.toList());
+//        return ResponseEntity.ok(list);
+//    }
     @GetMapping("getByMultiParams")
     public ResponseEntity<?> getBrandsByMultiParams(@RequestParam Map<String, String> params) {
-        List<BrandDTO> list = brandService.getBrands(params)
-                .stream()
-                .map(brand -> BrandMapper.INSTANCE.toDTO(brand))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(list);
+        Page<Brand> page = brandService.getBrands(params);
+        PageDTO pageDTO = new PageDTO(page);
+        return ResponseEntity.ok(pageDTO);
     }
 
 //    @GetMapping("/getByName")
@@ -66,4 +74,5 @@ public class BrandController {
 //                .collect(Collectors.toList());
 //        return ResponseEntity.ok(brandDTOList);
 //    }
+
 }
