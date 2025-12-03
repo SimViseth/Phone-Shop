@@ -82,7 +82,6 @@ public class BrandServiceTest {
     public void testGetByIdThrow() {
         // given
 
-
         // when
         when(brandRepository.findById(2)).thenReturn(Optional.empty());
         assertThatThrownBy(() -> brandService.getById(2))
