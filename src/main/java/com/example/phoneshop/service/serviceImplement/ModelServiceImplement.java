@@ -6,6 +6,8 @@ import com.example.phoneshop.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ModelServiceImplement implements ModelService {
@@ -14,5 +16,10 @@ public class ModelServiceImplement implements ModelService {
     @Override
     public Model save(Model model) {
         return modelRepository.save(model);
+    }
+
+    @Override
+    public List<Model> getModelByBrand(Integer brandId) {
+        return modelRepository.findModelByBrandId(brandId);
     }
 }

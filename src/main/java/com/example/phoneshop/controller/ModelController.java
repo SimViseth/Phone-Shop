@@ -6,10 +6,9 @@ import com.example.phoneshop.mapper.ModelEntityMapper;
 import com.example.phoneshop.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/model")
@@ -23,5 +22,14 @@ public class ModelController {
         Model model = modelEntityMapper.toModel(modelDTO);
         model = modelService.save(model);
         return ResponseEntity.ok(modelEntityMapper.toModelDTO(model));
+    }
+
+    @GetMapping("/getModelByBrand/{brandId}")
+    public ResponseEntity<List<ModelDTO>> getModelByBrand(@PathVariable Integer brandId) {
+        List<Model> brands = modelService.getModelByBrand(brandId);
+        List<ModelDTO> list = brands.stream()
+                .map(modelEntityMapper::toModelDTO)
+                .toList();
+        return ResponseEntity.ok(list);
     }
 }
