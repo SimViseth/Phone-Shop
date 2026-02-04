@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ModelRepository extends JpaRepository<Model, Integer> {
     List<Model> findModelByBrandId(Integer brandId);
+    List<Model> findByBrandIdAndNameStartWith(Integer brandId, String name);
 }
