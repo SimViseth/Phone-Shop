@@ -30,7 +30,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "color_id")
-    private Color color;
+    private Color color;  // one color has many product
 
     @Column(name = "sale_price")
     private BigDecimal salePrice;
