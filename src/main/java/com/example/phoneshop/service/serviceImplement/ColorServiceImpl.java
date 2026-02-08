@@ -1,6 +1,7 @@
 package com.example.phoneshop.service.serviceImplement;
 
 import com.example.phoneshop.entity.Color;
+import com.example.phoneshop.exception.ResourceNotFound;
 import com.example.phoneshop.repository.ColorRepository;
 import com.example.phoneshop.service.ColorService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,6 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     public Color getById(Long id) {
-        return null;
+        return colorRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Color", id));
     }
 }

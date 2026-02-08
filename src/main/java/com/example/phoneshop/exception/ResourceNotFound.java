@@ -3,7 +3,7 @@ package com.example.phoneshop.exception;
 import org.springframework.http.HttpStatus;
 
 public class ResourceNotFound extends ApiException {
-    public ResourceNotFound(String resourceName, Integer id) {
+    public ResourceNotFound(String resourceName, Long id) {
         super(HttpStatus.NOT_FOUND, String.format("%s with id = %d not found", resourceName, id));
     }
 }
