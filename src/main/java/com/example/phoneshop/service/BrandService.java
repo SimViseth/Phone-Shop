@@ -10,9 +10,9 @@ import java.util.Map;
 public interface BrandService {
     Brand createBrand(Brand brand);
 
-    Brand getById(Integer brandId);
+    Brand getById(Long brandId);
 
-    Brand updateBrand(Integer brandId, Brand brand);
+    Brand updateBrand(Long brandId, Brand brand);
 
     List<Brand> getAllBrands();
     List<Brand> getBrandByName(String name);

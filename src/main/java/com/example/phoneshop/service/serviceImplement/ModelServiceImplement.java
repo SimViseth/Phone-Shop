@@ -1,6 +1,7 @@
 package com.example.phoneshop.service.serviceImplement;
 
 import com.example.phoneshop.entity.Model;
+import com.example.phoneshop.exception.ResourceNotFound;
 import com.example.phoneshop.repository.ModelRepository;
 import com.example.phoneshop.service.ModelService;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,10 @@ public class ModelServiceImplement implements ModelService {
     @Override
     public List<Model> getModelByBrand(Integer brandId) {
         return modelRepository.findModelByBrandId(brandId);
+    }
+
+    @Override
+    public Model getById(Long id) {
+        return modelRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Model", id));
     }
 }
