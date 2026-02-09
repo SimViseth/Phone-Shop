@@ -3,6 +3,7 @@ package com.example.phoneshop.service.serviceImplement;
 import com.example.phoneshop.dto.product.ProductImportDTO;
 import com.example.phoneshop.entity.Product;
 import com.example.phoneshop.exception.ResourceNotFound;
+import com.example.phoneshop.repository.ProductImportHistoryRepository;
 import com.example.phoneshop.repository.ProductRepository;
 import com.example.phoneshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductImportHistoryRepository productImportHistoryRepository;
 
     @Override
     public Product createProduct(Product product) {
