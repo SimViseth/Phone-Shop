@@ -1,6 +1,6 @@
 package com.example.phoneshop.service;
 
-import com.example.phoneshop.dto.ProductImportDTO;
+import com.example.phoneshop.dto.product.ProductImportDTO;
 import com.example.phoneshop.entity.Product;
 
 public interface ProductService {

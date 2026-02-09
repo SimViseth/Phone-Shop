@@ -1,4 +1,4 @@
-package com.example.phoneshop.dto;
+package com.example.phoneshop.dto.product;
 
 import lombok.Getter;
 import lombok.Setter;

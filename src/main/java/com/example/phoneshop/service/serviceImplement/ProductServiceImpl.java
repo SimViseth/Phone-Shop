@@ -1,6 +1,6 @@
 package com.example.phoneshop.service.serviceImplement;
 
-import com.example.phoneshop.dto.ProductImportDTO;
+import com.example.phoneshop.dto.product.ProductImportDTO;
 import com.example.phoneshop.entity.Product;
 import com.example.phoneshop.exception.ResourceNotFound;
 import com.example.phoneshop.repository.ProductRepository;
