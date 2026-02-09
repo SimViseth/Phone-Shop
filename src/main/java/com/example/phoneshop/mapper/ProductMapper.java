@@ -1,6 +1,6 @@
 package com.example.phoneshop.mapper;
 
-import com.example.phoneshop.dto.ProductDTO;
+import com.example.phoneshop.dto.product.ProductDTO;
 import com.example.phoneshop.entity.Product;
 import com.example.phoneshop.service.ColorService;
 import com.example.phoneshop.service.ModelService;

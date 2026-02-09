@@ -1,12 +1,11 @@
 package com.example.phoneshop.controller;
 
-import com.example.phoneshop.dto.ProductDTO;
+import com.example.phoneshop.dto.product.ProductDTO;
 import com.example.phoneshop.entity.Product;
 import com.example.phoneshop.mapper.ProductMapper;
 import com.example.phoneshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
