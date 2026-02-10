@@ -16,8 +16,8 @@ public interface ProductMapper {
     @Mapping(target = "color", source = "colorId")
     Product toProduct(ProductDTO productDTO);
 
-    @Mapping(target = "dateImport", source = "importDate")
-    @Mapping(target = "pricePerUnit", source = "importPrice")
+    @Mapping(target = "dateImport", source = "productImportDTO.importDate")
+    @Mapping(target = "pricePerUnit", source = "productImportDTO.importPrice")
     @Mapping(target = "product", source = "product")
     @Mapping(target = "id", ignore = true)
     ProductImportHistory toProductImportHistory(ProductImportDTO productImportDTO, Product product);
