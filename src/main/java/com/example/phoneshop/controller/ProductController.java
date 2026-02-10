@@ -27,6 +27,7 @@ public class ProductController {
 
     @PostMapping("/import-product")
     public ResponseEntity<?> importProduct(@RequestBody ProductImportDTO importDTO) {
-
+        productService.importProduct(importDTO);
+        return ResponseEntity.ok().build();
     }
 }
