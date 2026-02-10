@@ -30,6 +30,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void importProduct(ProductImportDTO importDTO) {
-
+        Product product = getById(importDTO.getProductId());
+        Integer availableUnit = product.getAvailableUnit() + importDTO.getImportUnit();
+        product
     }
 }
