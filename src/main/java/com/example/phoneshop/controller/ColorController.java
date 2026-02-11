@@ -20,8 +20,8 @@ public class ColorController {
 
     @PostMapping("/create-color")
     public ResponseEntity<?> createColor(@RequestBody ColorDTO colorDTO) {
-        Color color = ColorMapper.INSTANCE.toColor(colorDTO); // request to entity
+        Color color = ColorMapper.INSTANCE.toColor(colorDTO);
         color = colorService.create(color);
-        return ResponseEntity.ok(ColorMapper.INSTANCE.toColorDTO(color)); // dto to entity
+        return ResponseEntity.ok(ColorMapper.INSTANCE.toColorDTO(color));
     }
 }
