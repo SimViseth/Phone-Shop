@@ -10,5 +10,5 @@ public interface ColorMapper {
     ColorMapper INSTANCE = Mappers.getMapper(ColorMapper.class);
     Color toColor(ColorDTO colorDTO);
 
-    ColorDTO toDto(Color color);
+    ColorDTO toColorDTO(Color color);
 }
