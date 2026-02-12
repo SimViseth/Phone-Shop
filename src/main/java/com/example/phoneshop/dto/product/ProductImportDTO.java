@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -12,5 +12,5 @@ public class ProductImportDTO {
     private Long productId;
     private Integer importUnit;
     private BigDecimal importPrice;
-    private LocalDateTime importDate;
+    private LocalDate importDate;
 }
