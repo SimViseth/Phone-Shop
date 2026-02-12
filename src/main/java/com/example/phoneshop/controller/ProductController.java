@@ -17,7 +17,6 @@ public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
 
-    //@RequestMapping(method = RequestMethod.POST)
     @PostMapping("/create-product")
     public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO) {
         Product product = productMapper.toProduct(productDTO);
