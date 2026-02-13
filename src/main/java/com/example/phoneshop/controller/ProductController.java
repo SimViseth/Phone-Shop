@@ -33,7 +33,7 @@ public class ProductController {
 
     @PostMapping("/{productId}/set-sale-price")
     public ResponseEntity<?> setSalePrice(@PathVariable Long productId, @RequestBody PriceDTO priceDTO) {
-
+        productService.setSalePrice(productId, priceDTO.getPrice());
         return ResponseEntity.ok().build();
     }
 }
