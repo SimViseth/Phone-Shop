@@ -29,4 +29,11 @@ public class ProductController {
         productService.importProduct(importDTO);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/{productId}/set-sale-price")
+    public ResponseEntity<?> setSalePrice(@PathVariable Long productId) {
+
+
+        return ResponseEntity.ok().build();
+    }
 }
