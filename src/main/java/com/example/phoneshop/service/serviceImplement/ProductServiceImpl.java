@@ -1,5 +1,6 @@
 package com.example.phoneshop.service.serviceImplement;
 
+import com.example.phoneshop.dto.product.PriceDTO;
 import com.example.phoneshop.dto.product.ProductImportDTO;
 import com.example.phoneshop.entity.Product;
 import com.example.phoneshop.entity.ProductImportHistory;
@@ -12,6 +13,8 @@ import com.example.phoneshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
@@ -48,5 +51,12 @@ public class ProductServiceImpl implements ProductService {
 
         ProductImportHistory importHistory = productMapper.toProductImportHistory(importDTO, product);
         productImportHistoryRepository.save(importHistory);
+    }
+
+    @Override
+    public void setSalePrice(Long productId, BigDecimal price) {
+        Product product = getById(productId);
+        product.setSalePrice(price);
+        productRepository.save(product);
     }
 }

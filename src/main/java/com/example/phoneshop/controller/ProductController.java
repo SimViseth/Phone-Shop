@@ -1,5 +1,6 @@
 package com.example.phoneshop.controller;
 
+import com.example.phoneshop.dto.product.PriceDTO;
 import com.example.phoneshop.dto.product.ProductDTO;
 import com.example.phoneshop.dto.product.ProductImportDTO;
 import com.example.phoneshop.entity.Product;
@@ -31,8 +32,7 @@ public class ProductController {
     }
 
     @PostMapping("/{productId}/set-sale-price")
-    public ResponseEntity<?> setSalePrice(@PathVariable Long productId) {
-
+    public ResponseEntity<?> setSalePrice(@PathVariable Long productId, @RequestBody PriceDTO priceDTO) {
 
         return ResponseEntity.ok().build();
     }
