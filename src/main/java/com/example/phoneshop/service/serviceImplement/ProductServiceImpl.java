@@ -1,6 +1,7 @@
 package com.example.phoneshop.service.serviceImplement;
 
 import com.example.phoneshop.dto.product.PriceDTO;
+import com.example.phoneshop.dto.product.ProductDTO;
 import com.example.phoneshop.dto.product.ProductImportDTO;
 import com.example.phoneshop.entity.Product;
 import com.example.phoneshop.entity.ProductImportHistory;
@@ -12,9 +13,11 @@ import com.example.phoneshop.repository.ProductRepository;
 import com.example.phoneshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -58,5 +61,11 @@ public class ProductServiceImpl implements ProductService {
         Product product = getById(productId);
         product.setSalePrice(price);
         productRepository.save(product);
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+        List<Product> productList = productRepository.findAll();
+        return productList;
     }
 }
