@@ -10,6 +10,8 @@ import com.example.phoneshop.service.SaleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SaleServiceImpl implements SaleService {
@@ -27,12 +29,22 @@ public class SaleServiceImpl implements SaleService {
     // validate
     private void validate(SaleDTO saleDTO) {
 
-        // validate product
+        // ------- VALIDATE PRODUCT -----------
+
+        /* Option 1
+            List<Long> productId = saleDTO.getProducts().stream()
+                    .map(ProductSoldDTO::getProductId)
+                    .toList();
+         */
+
+        // Option 2
         saleDTO.getProducts().stream()
                 .map(ProductSoldDTO::getProductId)
                 .forEach(productService::getById); // = forEach(productId -> productService.getById(productId));
 
-        // validate stock
+
+        // ------- VALIDATE STOCK ------------
+
 
     }
 }
