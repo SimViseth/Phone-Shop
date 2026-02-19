@@ -3,6 +3,7 @@ package com.example.phoneshop.service.serviceImplement;
 import com.example.phoneshop.dto.SaleDTO;
 import com.example.phoneshop.entity.Product;
 import com.example.phoneshop.entity.Sale;
+import com.example.phoneshop.entity.SaleDetail;
 import com.example.phoneshop.exception.ApiException;
 import com.example.phoneshop.repository.ProductRepository;
 import com.example.phoneshop.repository.SaleDetailRepository;
@@ -35,6 +36,12 @@ public class SaleServiceImpl implements SaleService {
         Sale sale = new Sale();
         sale.setSoldDate(saleDTO.getSaleDate());
         saleRepository.save(sale);
+
+        // sale detail
+        saleDTO.getProducts().forEach(ps -> {
+            SaleDetail saleDetail = new SaleDetail();
+            saleDetail.setAmount(null);
+        });
     }
 
     // validate
