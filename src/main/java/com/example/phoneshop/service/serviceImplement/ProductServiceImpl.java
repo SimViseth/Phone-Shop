@@ -12,11 +12,18 @@ import com.example.phoneshop.repository.ProductImportHistoryRepository;
 import com.example.phoneshop.repository.ProductRepository;
 import com.example.phoneshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -67,5 +74,28 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAllProducts() {
         List<Product> productList = productRepository.findAll();
         return productList;
+    }
+
+    @Override
+    public void uploadProduct(MultipartFile file) {
+        /*
+            0. CUSTOM SAMPLE EXCEL FILE WITH COLUMN AND SOME DATA THEN VIEW AND FOLLOW IT STEP BY STEP
+            1. GET SHEET FROM EXCEL
+            2. GET ROWS
+        */
+        try {
+            Workbook workbook = new XSSFWorkbook(file.getInputStream());
+            Sheet sheet = workbook.getSheet("sheet1"); // sheet name
+            Iterator<Row> rowIterator = sheet.iterator();
+
+            rowIterator.next(); // get first one row (to skip header row of table)
+
+            while (rowIterator.hasNext()) {
+                rowIterator.next(); // get one row one by one
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
