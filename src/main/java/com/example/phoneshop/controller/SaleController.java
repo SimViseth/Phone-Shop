@@ -19,5 +19,6 @@ public class SaleController {
     @PostMapping("/sale-product")
     public ResponseEntity<?> sellProduct(@RequestBody SaleDTO saleDTO) {
         saleService.sellProduct(saleDTO);
+        return ResponseEntity.ok().build();
     }
 }
