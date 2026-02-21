@@ -13,6 +13,7 @@ import java.util.List;
 public interface ProductService {
     Product createProduct(Product product);
     Product getById(Long id);
+    Product getByModelIdAndColorId(Long modelId, Long colorId);
     void importProduct(ProductImportDTO importDTO);
     void setSalePrice(Long productId, BigDecimal price);
 

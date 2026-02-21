@@ -24,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,6 +47,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getById(Long id) {
         return productRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Product", id));
+    }
+
+    @Override
+    public Product getByModelIdAndColorId(Long modelId, Long colorId) {
+        return productRepository.findByModelIdAndColorId(modelId, colorId)
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Product with model id = %s and color id = %d are not found"));
     }
 
     @Override
@@ -104,7 +112,28 @@ public class ProductServiceImpl implements ProductService {
                 Cell cellColorId = row.getCell(1);
                 Long colorId = (long) cellColorId.getNumericCellValue();
 
-                System.out.println("model Id: " + modelId);
+                Cell cellImportPrice = row.getCell(2);
+                Double importPrice = cellImportPrice.getNumericCellValue();
+
+                Cell cellImportUnit = row.getCell(3);
+                Integer importUnit = (int) cellImportUnit.getNumericCellValue();
+
+                Cell cellImportDate = row.getCell(4);
+                LocalDateTime importDate = cellImportDate.getLocalDateTimeCellValue();
+
+                Product product = getByModelIdAndColorId(modelId, colorId);
+
+               Integer availableUnit = 0;
+               if (product.getAvailableUnit() != null) {
+                   availableUnit = product.getAvailableUnit();
+               }
+
+                product.setAvailableUnit(availableUnit + importUnit);
+
+                productRepository.save(product);
+
+                ProductImportHistory importHistory = productMapper.toProductImportHistory(importDTO, product);
+                productImportHistoryRepository.save(importHistory);
             }
 
         } catch (IOException e) {
