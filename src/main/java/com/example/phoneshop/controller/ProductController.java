@@ -48,8 +48,7 @@ public class ProductController {
 
     @PostMapping("/upload-product")
     public ResponseEntity<?> uploadProduct(@RequestParam("file") MultipartFile file)  {
-
+        productService.uploadProduct(file);
         return ResponseEntity.ok().build();
-
     }
 }

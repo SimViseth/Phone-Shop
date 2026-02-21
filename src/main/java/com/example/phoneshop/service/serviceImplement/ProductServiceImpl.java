@@ -12,6 +12,7 @@ import com.example.phoneshop.repository.ProductImportHistoryRepository;
 import com.example.phoneshop.repository.ProductRepository;
 import com.example.phoneshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -82,6 +83,7 @@ public class ProductServiceImpl implements ProductService {
             0. CUSTOM SAMPLE EXCEL FILE WITH COLUMN AND SOME DATA THEN VIEW AND FOLLOW IT STEP BY STEP
             1. GET SHEET FROM EXCEL
             2. GET ROWS
+            3. GET CELL
         */
         try {
             Workbook workbook = new XSSFWorkbook(file.getInputStream());
@@ -91,7 +93,18 @@ public class ProductServiceImpl implements ProductService {
             rowIterator.next(); // get first one row (to skip header row of table)
 
             while (rowIterator.hasNext()) {
-                rowIterator.next(); // get one row one by one
+
+                // get one row one by one
+                Row row = rowIterator.next();
+
+                // -------------- get cell -------------------
+                Cell cellModelId = row.getCell(0);
+                Long modelId = (long) cellModelId.getNumericCellValue();
+
+                Cell cellColorId = row.getCell(1);
+                Long colorId = (long) cellColorId.getNumericCellValue();
+
+                System.out.println("model Id: " + modelId);
             }
 
         } catch (IOException e) {
