@@ -132,8 +132,8 @@ public class ProductServiceImpl implements ProductService {
 
                 productRepository.save(product);
 
-                ProductImportHistory importHistory = productMapper.toProductImportHistory(importDTO, product);
-                productImportHistoryRepository.save(importHistory);
+//                ProductImportHistory importHistory = productMapper.toProductImportHistory(importDTO, product);
+//                productImportHistoryRepository.save(importHistory);
             }
 
         } catch (IOException e) {
