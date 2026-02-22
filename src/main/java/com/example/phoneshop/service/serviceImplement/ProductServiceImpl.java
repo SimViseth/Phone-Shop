@@ -26,8 +26,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -86,13 +88,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void uploadProduct(MultipartFile file) {
+    public Map<Integer, String> uploadProduct(MultipartFile file) {
         /*
             0. CUSTOM SAMPLE EXCEL FILE WITH COLUMN AND SOME DATA THEN VIEW AND FOLLOW IT STEP BY STEP
             1. GET SHEET FROM EXCEL
             2. GET ROWS
             3. GET CELL
         */
+        Map<Integer, String> map = new HashMap<>();
+
         try {
             Workbook workbook = new XSSFWorkbook(file.getInputStream());
             Sheet sheet = workbook.getSheet("sheet1"); // sheet name
@@ -101,43 +105,59 @@ public class ProductServiceImpl implements ProductService {
             rowIterator.next(); // get first one row (to skip header row of table)
 
             while (rowIterator.hasNext()) {
+                Integer rowNumber = 0;
 
-                // get one row one by one
-                Row row = rowIterator.next();
+                try {
+                    // get one row one by one
+                    Row row = rowIterator.next();
 
-                // -------------- get cell -------------------
-                Cell cellModelId = row.getCell(0);
-                Long modelId = (long) cellModelId.getNumericCellValue();
+                    // -------------- get cell -------------------
+                    int cellIndex = 0;
 
-                Cell cellColorId = row.getCell(1);
-                Long colorId = (long) cellColorId.getNumericCellValue();
+                    Cell cellNo = row.getCell(cellIndex++);
+                    rowNumber = (int) cellNo.getNumericCellValue();
 
-                Cell cellImportPrice = row.getCell(2);
-                Double importPrice = cellImportPrice.getNumericCellValue();
+                    Cell cellModelId = row.getCell(cellIndex++);
+                    Long modelId = (long) cellModelId.getNumericCellValue();
 
-                Cell cellImportUnit = row.getCell(3);
-                Integer importUnit = (int) cellImportUnit.getNumericCellValue();
+                    Cell cellColorId = row.getCell(cellIndex++);
+                    Long colorId = (long) cellColorId.getNumericCellValue();
 
-                Cell cellImportDate = row.getCell(4);
-                LocalDateTime importDate = cellImportDate.getLocalDateTimeCellValue();
+                    Cell cellImportPrice = row.getCell(cellIndex++);
+                    Double importPrice = cellImportPrice.getNumericCellValue();
 
-                Product product = getByModelIdAndColorId(modelId, colorId);
+                    Cell cellImportUnit = row.getCell(cellIndex++);
+                    Integer importUnit = (int) cellImportUnit.getNumericCellValue();
 
-               Integer availableUnit = 0;
-               if (product.getAvailableUnit() != null) {
-                   availableUnit = product.getAvailableUnit();
-               }
+                    Cell cellImportDate = row.getCell(cellIndex++);
+                    LocalDateTime importDate = cellImportDate.getLocalDateTimeCellValue();
 
-                product.setAvailableUnit(availableUnit + importUnit);
+                    Product product = getByModelIdAndColorId(modelId, colorId);
 
-                productRepository.save(product);
+                    Integer availableUnit = 0;
+                    if (product.getAvailableUnit() != null) {
+                        availableUnit = product.getAvailableUnit();
+                    }
 
-//                ProductImportHistory importHistory = productMapper.toProductImportHistory(importDTO, product);
-//                productImportHistoryRepository.save(importHistory);
+                    product.setAvailableUnit(availableUnit + importUnit);
+
+                    productRepository.save(product);
+
+                    var productImportHistory = new ProductImportHistory();
+                    productImportHistory.setDateImport(importDate);
+                    productImportHistory.setImportUnit(importUnit);
+                    productImportHistory.setPricePerUnit(BigDecimal.valueOf(importPrice));
+                    productImportHistory.setProduct(product);
+                    productImportHistoryRepository.save(productImportHistory);
+                }
+                catch (ApiException e) {
+                    map.put(rowNumber, e.getMessage());
+                }
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return map;
     }
 }

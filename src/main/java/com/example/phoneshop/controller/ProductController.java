@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/product")
@@ -48,7 +49,7 @@ public class ProductController {
 
     @PostMapping("/upload-product")
     public ResponseEntity<?> uploadProduct(@RequestParam("file") MultipartFile file)  {
-        productService.uploadProduct(file);
-        return ResponseEntity.ok().build();
+        Map<Integer, String> errorMap = productService.uploadProduct(file);
+        return ResponseEntity.ok(errorMap);
     }
 }

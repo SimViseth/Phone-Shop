@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
     Product createProduct(Product product);
@@ -18,5 +19,5 @@ public interface ProductService {
     void setSalePrice(Long productId, BigDecimal price);
 
     List<Product> getAllProducts();
-    void uploadProduct(MultipartFile file);
+    Map<Integer, String> uploadProduct(MultipartFile file);
 }
