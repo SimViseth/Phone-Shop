@@ -71,6 +71,12 @@ public class SaleServiceImpl implements SaleService {
         });
     }
 
+    @Override
+    public void cancelSale(Long saleId) {
+        
+    }
+
+
     private void saveSale(SaleDTO saleDTO) {
         Sale sale = new Sale();
         sale.setSoldDate(saleDTO.getSaleDate());
