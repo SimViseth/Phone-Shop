@@ -6,6 +6,7 @@ import com.example.phoneshop.entity.Product;
 import com.example.phoneshop.entity.Sale;
 import com.example.phoneshop.entity.SaleDetail;
 import com.example.phoneshop.exception.ApiException;
+import com.example.phoneshop.exception.ResourceNotFound;
 import com.example.phoneshop.repository.ProductRepository;
 import com.example.phoneshop.repository.SaleDetailRepository;
 import com.example.phoneshop.repository.SaleRepository;
@@ -72,8 +73,14 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
+    public Sale getById(Long saleId) {
+        return saleRepository.findById(saleId)
+                .orElseThrow(() -> new ResourceNotFound("Sale", saleId));
+    }
+
+    @Override
     public void cancelSale(Long saleId) {
-        
+
     }
 
 
