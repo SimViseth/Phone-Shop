@@ -1,7 +1,5 @@
 package com.example.phoneshop.service.serviceImplement;
 
-import com.example.phoneshop.dto.product.PriceDTO;
-import com.example.phoneshop.dto.product.ProductDTO;
 import com.example.phoneshop.dto.product.ProductImportDTO;
 import com.example.phoneshop.entity.Product;
 import com.example.phoneshop.entity.ProductImportHistory;
@@ -18,13 +16,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -129,6 +125,10 @@ public class ProductServiceImpl implements ProductService {
                     Cell cellImportUnit = row.getCell(cellIndex++);
                     Integer importUnit = (int) cellImportUnit.getNumericCellValue();
 
+                    if (importUnit < 1) {
+                        throw new ApiException(HttpStatus.BAD_REQUEST, "Import Unit must be greater than 0");
+                    }
+
                     Cell cellImportDate = row.getCell(cellIndex++);
                     LocalDateTime importDate = cellImportDate.getLocalDateTimeCellValue();
 
@@ -150,7 +150,7 @@ public class ProductServiceImpl implements ProductService {
                     productImportHistory.setProduct(product);
                     productImportHistoryRepository.save(productImportHistory);
                 }
-                catch (ApiException e) {
+                catch (Exception e) {
                     map.put(rowNumber, e.getMessage());
                 }
             }

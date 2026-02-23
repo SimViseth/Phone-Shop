@@ -88,6 +88,10 @@
             <artifactId>fastexcel</artifactId>
             <version>0.19.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

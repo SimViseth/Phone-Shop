@@ -1,6 +1,7 @@
 package com.example.phoneshop.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +34,7 @@ public class Product {
     @JoinColumn(name = "color_id")
     private Color color;  // one color has many product
 
+    @DecimalMin(value = "0.000001", message = "Price must be greater than 0")
     @Column(name = "sale_price")
     private BigDecimal salePrice;
 
