@@ -18,5 +18,4 @@ public class ReportController {
     public ResponseEntity<?> getReport() {
 
     }
-
 }
