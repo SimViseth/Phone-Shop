@@ -88,17 +88,21 @@ public class SaleServiceImpl implements SaleService {
         // find sale detail
         List<SaleDetail> saleDetails = saleDetailRepository.findBySaleId(saleId);
 
-        // find product from sale detail
+        // find productId from sale detail
         List<Long> productId = saleDetails.stream()
                 .map(sd -> sd.getProduct().getProductId())
                 .toList();
 
+        // find product
         List<Product> products = productRepository.findAllById(productId);
         Map<Long, Product> productMap = products.stream()
                 .collect(Collectors.toMap(Product::getProductId, Function.identity()));
 
+        // return stock
         saleDetails.forEach(sd -> {
-            Product product = sd.getProduct();
+            Product product = productMap.get(sd.getProduct().getProductId());
+            product.setAvailableUnit(product.getAvailableUnit() + sd.getUnit());
+            productRepository.save(product);
         });
     }
 
