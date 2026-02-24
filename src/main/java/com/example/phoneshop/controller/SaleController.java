@@ -21,6 +21,7 @@ public class SaleController {
 
     @PutMapping("cancel-sale/{saleId}")
     public ResponseEntity<?> cancelSale(@PathVariable Long saleId) {
+        saleService.cancelSale(saleId);
         return ResponseEntity.ok().build();
     }
 }
