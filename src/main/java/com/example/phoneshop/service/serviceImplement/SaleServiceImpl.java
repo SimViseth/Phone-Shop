@@ -80,7 +80,26 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public void cancelSale(Long saleId) {
+        // update sale status
+        Sale sale = getById(saleId);
+        sale.setActive(false);
+        saleRepository.save(sale);
 
+        // find sale detail
+        List<SaleDetail> saleDetails = saleDetailRepository.findBySaleId(saleId);
+
+        // find product from sale detail
+        List<Long> productId = saleDetails.stream()
+                .map(sd -> sd.getProduct().getProductId())
+                .toList();
+
+        List<Product> products = productRepository.findAllById(productId);
+        Map<Long, Product> productMap = products.stream()
+                .collect(Collectors.toMap(Product::getProductId, Function.identity()));
+
+        saleDetails.forEach(sd -> {
+            Product product = sd.getProduct();
+        });
     }
 
 
