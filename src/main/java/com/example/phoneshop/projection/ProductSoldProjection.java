@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public interface ProductSoldProjection {
     // productId, productName, Unit, totalAmount
-    Long gteProductId();
+    Long getProductId();
     String getProductName();
     Integer getUnit();
     BigDecimal getTotalAmount();
