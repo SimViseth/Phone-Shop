@@ -28,4 +28,6 @@ public class ReportController {
         List<ProductSoldProjection> productSoldList = reportService.getProductSold(startDate, endDate);
         return ResponseEntity.ok(productSoldList);
     }
+
+
 }
