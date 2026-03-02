@@ -1,5 +1,6 @@
 package com.example.phoneshop.controller;
 
+import com.example.phoneshop.dto.ProductReportDTO;
 import com.example.phoneshop.projection.ProductSoldProjection;
 import com.example.phoneshop.service.ReportService;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -29,5 +30,10 @@ public class ReportController {
         return ResponseEntity.ok(productSoldList);
     }
 
-
+    @GetMapping("v2/{startDate}/{endDate}")
+    public ResponseEntity<?> productSoldV2(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable LocalDate startDate,
+                                           @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable LocalDate endDate) {
+        List<ProductReportDTO> productSolds = reportService.getProductReport(startDate, endDate);
+        return ResponseEntity.ok(productSolds);
+    }
 }

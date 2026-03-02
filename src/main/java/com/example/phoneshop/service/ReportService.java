@@ -9,4 +9,5 @@ import java.util.List;
 public interface ReportService {
     List<ProductSoldProjection> getProductSold(LocalDate startDate, LocalDate endDate);
     List<ProductReportDTO> getProductReport(LocalDate startDate, LocalDate endDate);
+    List<ProductReportDTO> getExpenseReport(LocalDate startDate, LocalDate endDate);
 }
