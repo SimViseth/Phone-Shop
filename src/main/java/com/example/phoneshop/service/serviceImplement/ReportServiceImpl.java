@@ -1,5 +1,6 @@
 package com.example.phoneshop.service.serviceImplement;
 
+import com.example.phoneshop.dto.ExpenseReportDTO;
 import com.example.phoneshop.dto.ProductReportDTO;
 import com.example.phoneshop.entity.Product;
 import com.example.phoneshop.entity.SaleDetail;
@@ -77,5 +78,10 @@ public class ReportServiceImpl implements ReportService {
         }
 
         return list;
+    }
+
+    @Override
+    public List<ExpenseReportDTO> getExpenseReport(LocalDate startDate, LocalDate endDate) {
+        return null;
     }
 }
