@@ -3,12 +3,14 @@ package com.example.phoneshop.service.serviceImplement;
 import com.example.phoneshop.dto.ExpenseReportDTO;
 import com.example.phoneshop.dto.ProductReportDTO;
 import com.example.phoneshop.entity.Product;
+import com.example.phoneshop.entity.ProductImportHistory;
 import com.example.phoneshop.entity.SaleDetail;
 import com.example.phoneshop.projection.ProductSoldProjection;
 import com.example.phoneshop.repository.ProductRepository;
 import com.example.phoneshop.repository.SaleDetailRepository;
 import com.example.phoneshop.repository.SaleRepository;
 import com.example.phoneshop.service.ReportService;
+import com.example.phoneshop.spec.ProductImportHistoryFilter;
 import com.example.phoneshop.spec.SaleDetailFilter;
 import com.example.phoneshop.spec.SaleDetailSpec;
 import lombok.RequiredArgsConstructor;
@@ -82,6 +84,6 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<ExpenseReportDTO> getExpenseReport(LocalDate startDate, LocalDate endDate) {
-        return null;
+        ProductImportHistoryFilter
     }
 }
