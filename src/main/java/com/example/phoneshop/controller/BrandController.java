@@ -8,6 +8,7 @@ import com.example.phoneshop.service.BrandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class BrandController {
 
     private final BrandService brandService;
 
+    @PreAuthorize("hasAuthority('brand:write')")
     @PostMapping("/create-brand")
     public ResponseEntity<?> createBrand(@RequestBody BrandDTO brandDTO) {
         Brand brand = BrandMapper.INSTANCE.toBrand(brandDTO);
@@ -41,7 +43,8 @@ public class BrandController {
         return ResponseEntity.ok(BrandMapper.INSTANCE.toDTO(updateBrand));
     }
 
-    @GetMapping
+    @PreAuthorize("hasAuthority('brand:read')")
+    @GetMapping("/getAllBrands")
     public ResponseEntity<?> getAllBrands() {
         List<BrandDTO> list = brandService.getAllBrands()
                 .stream()
