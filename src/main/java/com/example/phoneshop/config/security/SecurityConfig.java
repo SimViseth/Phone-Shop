@@ -1,13 +1,17 @@
 package com.example.phoneshop.config.security;
 
+import com.example.phoneshop.config.jwt.JwtLoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,13 +30,16 @@ public class SecurityConfig {
 
     private final PasswordConfig passwordConfig;
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
         httpSecurity
                 .csrf(csrf -> csrf.disable())
+                .addFilter(new JwtLoginFilter(authenticationManager))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/index.html", "/css/**", "/js/**").permitAll()
-                .anyRequest().authenticated()
-        ).httpBasic(Customizer.withDefaults());
+                        .requestMatchers("/", "/index.html", "/css/**", "/js/**").permitAll()
+                        .anyRequest().authenticated()
+                );
+
         return httpSecurity.build();
     }
 
@@ -49,5 +56,10 @@ public class SecurityConfig {
                 .authorities(RoleEnum.ADMIN.getAuthorities())
                 .build();
         return new InMemoryUserDetailsManager(user1, user2);
+    }
+    
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
