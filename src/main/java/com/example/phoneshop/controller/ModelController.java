@@ -18,7 +18,7 @@ public class ModelController {
     private final ModelService modelService;
     private final ModelEntityMapper modelEntityMapper;
 
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ADMIN")
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody ModelDTO modelDTO) {
         Model model = modelEntityMapper.toModel(modelDTO);

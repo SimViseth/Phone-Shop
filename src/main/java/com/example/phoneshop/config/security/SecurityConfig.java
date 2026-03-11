@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(
+@EnableMethodSecurity(
         prePostEnabled = true,
         securedEnabled = true,
         jsr250Enabled = true
@@ -26,7 +27,9 @@ public class SecurityConfig {
     private final PasswordConfig passwordConfig;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(auth -> auth
+        httpSecurity
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/index.html", "/css/**", "/js/**").permitAll()
                 .anyRequest().authenticated()
         ).httpBasic(Customizer.withDefaults());
