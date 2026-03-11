@@ -1,6 +1,10 @@
 package com.example.phoneshop.config.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +14,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
+
 @RequiredArgsConstructor
 public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
+
+    /*
+        JWT has three parts: header (algorithm type), claim (body) and signature
+     */
 
     private final AuthenticationManager authenticationManager;
 
@@ -30,4 +42,19 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     // step 2: if above correct -> generate token for user
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        String secretKey = "dfbdjdlw6372dhjsbfsnj5678bd63783bfdveywetp539";
+
+        String token = Jwts.builder()
+                .setSubject(authResult.getName()) // who send
+                .setIssuedAt(new Date())
+                .claim("authorities", authResult.getAuthorities()) // claim
+                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(7)))
+                .setIssuer("phoneshop.com")
+                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))  // signature
+                .compact();
+
+        response.setHeader("Authorization", "Bearer " + token);
+    }
 }
