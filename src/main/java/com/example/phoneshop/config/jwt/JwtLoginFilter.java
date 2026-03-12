@@ -56,6 +56,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
                 .compact();
         System.out.println("Token: " + token);
 
+        // send token through header
         response.setHeader("Authorization", "Bearer " + token);
     }
 }
