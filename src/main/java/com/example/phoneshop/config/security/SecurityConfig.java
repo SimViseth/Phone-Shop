@@ -1,6 +1,7 @@
 package com.example.phoneshop.config.security;
 
 import com.example.phoneshop.config.jwt.JwtLoginFilter;
+import com.example.phoneshop.config.jwt.TokenVerifyFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +32,7 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .addFilter(new JwtLoginFilter(authenticationManager))
+                .addFilterAfter(new TokenVerifyFilter(), JwtLoginFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/index.html", "/css/**", "/js/**").permitAll()

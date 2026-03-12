@@ -32,7 +32,7 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
 
         // replace word "Bearer" to get only token, "Bearer" just a word to mark
         String token = authorizationHeader.replace("Bearer ", "");
-        String secretKey = "abcddfdsf1243abcddfdsf1243abcddfdsf1243";
+        String secretKey = "dfbdjdlw6372dhjsbfsnj5678bd63783bfdveywetp539";
 
         Jws<Claims> claimsJws = Jwts.parser()
                 .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
@@ -43,7 +43,7 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
         List<Map<String, String>> authorities = (List<Map<String, String>>) body.get("authorities");
 
         Set<SimpleGrantedAuthority> grantedAuthoritySet = authorities.stream()
-                .map(x -> new SimpleGrantedAuthority(x.get("authorities")))
+                .map(x -> new SimpleGrantedAuthority(x.get("authority")))
                 .collect(Collectors.toSet());
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, grantedAuthoritySet);
