@@ -1,6 +1,7 @@
 package com.example.phoneshop.utils;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 
@@ -31,5 +32,12 @@ public class GeneralUtilTest {
         //then
         assertEquals(4, evenNumbers.size());
         assertEquals(4, evenNumbers.get(0));
+    }
+
+    @Test
+    public void showPassword() {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encode = passwordEncoder.encode("dara123");
+        System.out.println(encode);
     }
 }
