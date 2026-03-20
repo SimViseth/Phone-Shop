@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
         AppUser appUser = AppUser.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorities(user.getRole().getAuthorities())
+                //.authorities(user.getRole().getAuthorities())
                 .accountNonExpired(user.isAccountNonExpired())
                 .accountNonLocked(user.isAccountNonLocked())
                 .credentialsNonExpired(user.isCredentialsNonExpired())
