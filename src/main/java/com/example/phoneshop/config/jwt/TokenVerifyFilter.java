@@ -1,5 +1,6 @@
 package com.example.phoneshop.config.jwt;
 
+import com.example.phoneshop.exception.ApiException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -10,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -55,6 +57,8 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e) {
             log.info(e.getMessage());
+            e.printStackTrace();
+            throw new ApiException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 }
