@@ -70,10 +70,9 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(getAuthenticationProvider());
-//    }
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(getAuthenticationProvider());
+    }
 
     @Bean
     public AuthenticationProvider getAuthenticationProvider() {
