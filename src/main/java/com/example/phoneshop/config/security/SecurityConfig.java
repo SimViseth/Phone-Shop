@@ -5,6 +5,7 @@ import com.example.phoneshop.config.jwt.TokenVerifyFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -31,16 +32,19 @@ public class SecurityConfig {
 
     private final PasswordConfig passwordConfig;
     private final UserDetailsService userDetailsService;
+    private final AuthenticationConfiguration authenticationConfiguration;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
         httpSecurity
                 .csrf(csrf -> csrf.disable())
-                .addFilter(new JwtLoginFilter(authenticationManager))
+                .addFilter(new JwtLoginFilter(authenticationManager(authenticationConfiguration)))
                 .addFilterAfter(new TokenVerifyFilter(), JwtLoginFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/index.html", "/css/**", "/js/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/updateBrand/**").hasAuthority(PermissionEnum.BRAND_WRITE.getDescription())
+                        .anyRequest()
+                        .authenticated()
                 );
 
         return httpSecurity.build();
