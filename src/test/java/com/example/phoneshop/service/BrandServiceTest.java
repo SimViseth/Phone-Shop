@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -23,6 +25,9 @@ import java.util.Optional;
 public class BrandServiceTest {
     @Mock
     private BrandRepository brandRepository;
+
+    @Captor
+    private ArgumentCaptor<Brand> brandArgumentCaptor;
     private BrandService brandService;
 
     @BeforeEach
@@ -68,8 +73,8 @@ public class BrandServiceTest {
         brand.setId(1);
 
         // when
-        when(brandRepository.findById(1)).thenReturn(Optional.of(brand));
-        Brand brandReturn = brandService.getById(1);
+        when(brandRepository.findById(1L)).thenReturn(Optional.of(brand));
+        Brand brandReturn = brandService.getById(1L);
 
         // then
         assertEquals(1, brandReturn.getId());
@@ -83,9 +88,27 @@ public class BrandServiceTest {
         // given
 
         // when
-        when(brandRepository.findById(2)).thenReturn(Optional.empty());
-        assertThatThrownBy(() -> brandService.getById(2))
+        when(brandRepository.findById(2L)).thenReturn(Optional.empty());
+        assertThatThrownBy(() -> brandService.getById(2L))
                 .isInstanceOf(ResourceNotFound.class)
                 .hasMessage("Brand with id = 2 not found");
+    }
+
+    @Test
+    public void testUpdate() {
+        // given
+        Brand brandInDB = new Brand(1, "Apple");
+        Brand brand = new Brand(1, "Apple 2");
+
+        // when
+        when(brandRepository.findById(1L)).thenReturn(Optional.ofNullable(brandInDB));
+        Brand brandAfterUpdated = brandService.updateBrand(1L, brand);
+
+        // then
+        verify(brandRepository, times(1)).findById(1L);
+        //assertEquals("Apple 2U", brandAfterUpdated.getName());
+        verify(brandRepository).save(brandArgumentCaptor.capture());
+        assertEquals("John", brandArgumentCaptor.getValue().getName());
+        assertEquals(1, brandArgumentCaptor.getValue().getId());
     }
 }
