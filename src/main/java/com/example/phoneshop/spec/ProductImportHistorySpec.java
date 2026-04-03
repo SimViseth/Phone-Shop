@@ -18,16 +18,21 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 public class ProductImportHistorySpec implements Specification<ProductImportHistory> {
+
     private ProductImportHistoryFilter importFilter;
 
     @Override
     public Predicate toPredicate(Root<ProductImportHistory> importHistory, CriteriaQuery<?> query, CriteriaBuilder cb) {
         List<Predicate> predicateList = new ArrayList<>();
         if(Objects.nonNull(importFilter.getStartDate())) {
-            cb.greaterThanOrEqualTo(importHistory.get("dateImport"), importFilter.getStartDate());
+            //cb.greaterThanOrEqualTo(importHistory.get("dateImport"), importFilter.getStartDate());
+            Predicate startDate = cb.greaterThanOrEqualTo(importHistory.get("dateImport"), importFilter.getStartDate());
+            predicateList.add(startDate);
         }
         if(Objects.nonNull(importFilter.getEndDate())) {
-            cb.lessThanOrEqualTo(importHistory.get("dateImport"), importFilter.getEndDate());
+            //cb.lessThanOrEqualTo(importHistory.get("dateImport"), importFilter.getEndDate());
+            Predicate endDate = cb.lessThanOrEqualTo(importHistory.get("endDate"), importFilter.getEndDate());
+            predicateList.add(endDate);
         }
         Predicate predicate = cb.and(predicateList.toArray(Predicate[]::new));
         return predicate;
